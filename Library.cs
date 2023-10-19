@@ -194,11 +194,19 @@ namespace Asm2_Advanced
                     throw new ArgumentNullException("Borrower name cannot be null or empty.");
                 }
 
-                // Kiểm tra xem tên người mượn có chứa số hay không
+                foreach (char c in borrowerName)
+                {
+                    if (char.IsDigit(c))
+                    {
+                        throw new FormatException("Borrower name cannot contain numbers.");
+                    }
+                }
+
+                /*// Check if the borrower's name contains a number
                 if (ContainsNumber(borrowerName))
                 {
                     throw new FormatException("Borrower name cannot contain numbers.");
-                }
+                }*/
 
                 if (string.IsNullOrEmpty(title))
                 {
@@ -242,17 +250,7 @@ namespace Asm2_Advanced
                 Console.WriteLine("An unexpected exception occurred: " + ex.Message);
             }
         }
-        private bool ContainsNumber(string input)
-        {
-            foreach (char c in input)
-            {
-                if (char.IsDigit(c))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
+ 
         public void ReturnBook()
         {
             try
