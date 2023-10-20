@@ -17,12 +17,6 @@ namespace Asm2_Advanced
         private int publishYear;
         private bool isAvailable = true;
 
-        public int IdCounter
-        {
-            get { return idCounter; }
-            set { idCounter = value; }
-
-        }
         public int Id
         {
             get { return id; }

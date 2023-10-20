@@ -112,7 +112,6 @@ namespace Asm2_Advanced
 
         private static void UserMenu()
         {
-
             while (true)
             {
                 Console.WriteLine("\nUser Menu:");
@@ -158,6 +157,13 @@ namespace Asm2_Advanced
                 {
                     throw new ArgumentNullException("Title cannot be null or empty.");
                 }
+                foreach (char c in title)
+                {
+                    if (char.IsDigit(c))
+                    {
+                        throw new FormatException("Book name cannot contain numbers.");
+                    }
+                }
 
                 Console.Write("Enter the author of the book: ");
                 string author = Console.ReadLine();
@@ -166,6 +172,13 @@ namespace Asm2_Advanced
                 {
                     throw new ArgumentNullException("Author cannot be null or empty.");
                 }
+                foreach (char c in author)
+                {
+                    if (char.IsDigit(c))
+                    {
+                        throw new FormatException("Author cannot contain numbers.");
+                    }
+                }
 
                 Console.Write("Enter the genre of the book: ");
                 string genre = Console.ReadLine();
@@ -173,6 +186,13 @@ namespace Asm2_Advanced
                 if (string.IsNullOrEmpty(genre))
                 {
                     throw new ArgumentNullException("Genre cannot be null or empty.");
+                }
+                foreach (char c in genre)
+                {
+                    if (char.IsDigit(c))
+                    {
+                        throw new FormatException("Genre cannot contain numbers.");
+                    }
                 }
 
                 Console.Write("Enter the publish year of the book: ");
@@ -183,7 +203,8 @@ namespace Asm2_Advanced
                         throw new ArgumentException("Publish year cannot be negative.");
                     }
 
-                    library.AddBook(title, author, genre, publishYear);
+
+                    library.AddBook(title, genre, author, publishYear);
                     Console.WriteLine("Book added successfully.");
                 }
                 else
@@ -194,10 +215,6 @@ namespace Asm2_Advanced
             catch (ArgumentNullException ex)
             {
                 Console.WriteLine("ArgumentNullException: " + ex.Message);
-            }
-            catch (ArgumentException ex)
-            {
-                Console.WriteLine("ArgumentException: " + ex.Message);
             }
             catch (FormatException ex)
             {

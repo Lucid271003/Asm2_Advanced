@@ -19,69 +19,20 @@ namespace Asm2_Advanced
 
         public void AddBook(string title, string author, string genre, int publishYear)
         {
-            try
+            Book book = new Book
             {
-                if (string.IsNullOrEmpty(title))
-                {
-                    throw new ArgumentNullException("Title cannot be null or empty.");
-                }
-
-                if (string.IsNullOrEmpty(author))
-                {
-                    throw new ArgumentNullException("Author cannot be null or empty.");
-                }
-
-                if (string.IsNullOrEmpty(genre))
-                {
-                    throw new ArgumentNullException("Genre cannot be null or empty.");
-                }
-
-                if (publishYear < 0)
-                {
-                    throw new ArgumentException("Publish year cannot be negative.");
-                }
-
-                if (books == null)
-                {
-                    throw new NullReferenceException("The 'books' list is null.");
-                }
-
-                Book book = new Book
-                {
-                    Name = title,
-                    Author = author,
-                    Genre = genre,
-                    PublishYear = publishYear
-                };
+                Name = title,
+                Author = author,
+                Genre = genre,
+                PublishYear = publishYear
+            };
                 books.Add(book);
-            }
-            catch (ArgumentNullException ex)
-            {
-                Console.WriteLine("ArgumentNullException: " + ex.Message);
-            }
-            catch (ArgumentException ex)
-            {
-                Console.WriteLine("ArgumentException: " + ex.Message);
-            }
-            catch (NullReferenceException ex)
-            {
-                Console.WriteLine("NullReferenceException: " + ex.Message);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("An unexpected exception occurred: " + ex.Message);
-            }
         }
 
         public void RemoveBook(int id)
         {
             try
             {
-                if (books == null)
-                {
-                    throw new NullReferenceException("The 'books' list is null.");
-                }
-
                 Book bookToRemove = books.Find(book => book.Id == id);
 
                 if (bookToRemove != null)
@@ -92,10 +43,6 @@ namespace Asm2_Advanced
                 {
                     throw new InvalidOperationException("Book not found.");
                 }
-            }
-            catch (NullReferenceException ex)
-            {
-                Console.WriteLine("NullReferenceException: " + ex.Message);
             }
             catch (InvalidOperationException ex)
             {
@@ -111,37 +58,11 @@ namespace Asm2_Advanced
         {
             List<Book> searchResults = new List<Book>();
 
-            try
-            {
-                if (string.IsNullOrEmpty(keyword))
-                {
-                    throw new ArgumentNullException("Keyword cannot be null or empty.");
-                }
-
-                if (books == null)
-                {
-                    throw new NullReferenceException("The 'books' list is null.");
-                }
-
-                searchResults = books.FindAll(book =>
-                    book.Name.ToLower().Contains(keyword.ToLower()) ||
-                    book.Author.ToLower().Contains(keyword.ToLower()) ||
-                    book.Genre.ToLower().Contains(keyword.ToLower())
-                );
-            }
-            catch (ArgumentNullException ex)
-            {
-                Console.WriteLine("ArgumentNullException: " + ex.Message);
-            }
-            catch (NullReferenceException ex)
-            {
-                Console.WriteLine("NullReferenceException: " + ex.Message);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("An unexpected exception occurred: " + ex.Message);
-            }
-
+            searchResults = books.FindAll(book =>
+                book.Name.ToLower().Contains(keyword.ToLower()) ||
+                book.Author.ToLower().Contains(keyword.ToLower()) ||
+                book.Genre.ToLower().Contains(keyword.ToLower())
+            );
             return searchResults;
         }
 
@@ -250,7 +171,17 @@ namespace Asm2_Advanced
                 Console.WriteLine("An unexpected exception occurred: " + ex.Message);
             }
         }
- 
+        /*private bool ContainsNumber(string input)
+        {
+            foreach (char c in input)
+            {
+                if (char.IsDigit(c))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }*/
         public void ReturnBook()
         {
             try
