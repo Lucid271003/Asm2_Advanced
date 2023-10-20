@@ -44,14 +44,6 @@ namespace Asm2_Advanced
                     throw new InvalidOperationException("Book not found.");
                 }
             }
-            catch (InvalidOperationException ex)
-            {
-                Console.WriteLine("InvalidOperationException: " + ex.Message);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("An unexpected exception occurred: " + ex.Message);
-            }
         }
 
         public List<Book> SearchBook(string keyword)
