@@ -17,16 +17,9 @@ namespace Asm2_Advanced
             borrowedBooks = new List<BorrowedBook>();
         }
 
-        public void AddBook(string title, string author, string genre, int publishYear)
+        public void AddBook(Book b)
         {
-            Book book = new Book
-            {
-                Name = title,
-                Author = author,
-                Genre = genre,
-                PublishYear = publishYear
-            };
-                books.Add(book);
+            books.Add(b);
         }
 
         public void RemoveBook(int id)
@@ -43,6 +36,10 @@ namespace Asm2_Advanced
                 {
                     throw new InvalidOperationException("Book not found.");
                 }
+            }
+            catch(InvalidOperationException ex)
+            {
+                Console.WriteLine("InvalidOperationException: " + ex);
             }
         }
 

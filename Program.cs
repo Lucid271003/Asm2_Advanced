@@ -18,10 +18,10 @@ namespace Asm2_Advanced
             library = new Library();
 
             // Add some books to the library
-            library.AddBook("Harry Potter", "J.K.RowLing", "Fantasy", 1997);
-            library.AddBook("Sherlock Homles", "Arthur Conan Doyle", "Detective", 1887);
-            library.AddBook("The Lord of the Rings", "J.R.R.Tolkien", "Adventure", 1954);
-            library.AddBook("The Alchemist", "Paulo Coelho", "Fantasy", 1988);
+            library.AddBook(new Book("Harry Potter", "J.K.RowLing", "Fantasy", 1997));
+            library.AddBook(new Book("Sherlock Homles", "Arthur Conan Doyle", "Detective", 1887));
+            library.AddBook(new Book("The Lord of the Rings", "J.R.R.Tolkien", "Adventure", 1954));
+            library.AddBook(new Book("The Alchemist", "Paulo Coelho", "Fantasy", 1988));
 
             // Create an admin account
             admin = new Admin("minh", "271003");
@@ -204,7 +204,7 @@ namespace Asm2_Advanced
                     }
 
 
-                    library.AddBook(title, genre, author, publishYear);
+                    library.AddBook(new Book(title, genre, author, publishYear));
                     Console.WriteLine("Book added successfully.");
                 }
                 else

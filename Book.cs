@@ -48,12 +48,10 @@ namespace Asm2_Advanced
             get { return isAvailable; }
             set { isAvailable = value; }
         }
-        public Book()
-        {
-            Id = idCounter++;
-        }
+
         public Book(string name, string genre, string author, int publishYear)
         {
+            Id = idCounter++;
             Name = name;
             Genre = genre;
             Author = author;
