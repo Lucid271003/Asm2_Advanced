@@ -57,7 +57,7 @@ namespace Asm2_Advanced
             Author = author;
             PublishYear = publishYear;
         }
-        public virtual void DisplayBook()
+        public void DisplayBook()
         {
             Console.WriteLine($"ID: {Id}, Name: {Name}, Author: {Author}, Genre: {Genre}, Publish Year: {PublishYear}, Available: {IsAvailable}");
         }

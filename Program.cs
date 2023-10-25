@@ -29,7 +29,7 @@ namespace Asm2_Advanced
             {
                 try
                 {
-                    int roleChoice = mainMenu.Mainmenu();
+                    int roleChoice = mainMenu.MainMenu();
                     switch (roleChoice)
                     {
                         case 1:

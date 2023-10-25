@@ -9,7 +9,7 @@ namespace Asm2_Advanced
 {
     internal class Menu : IMenu
     {
-        public int Mainmenu()
+        public int MainMenu()
         {
             int choice;
             Console.WriteLine("\nChoose a role:");
@@ -28,7 +28,7 @@ namespace Asm2_Advanced
             Console.WriteLine("2. Search Books");
             Console.WriteLine("3. Add Book");
             Console.WriteLine("4. Remove Book");
-            Console.WriteLine("6. Return to main menu");
+            Console.WriteLine("5. Return to main menu");
             Console.Write("Choice: ");
             choice = int.Parse(Console.ReadLine());
             return choice;

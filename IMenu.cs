@@ -8,7 +8,7 @@ namespace Asm2_Advanced
 {
     internal interface IMenu
     {
-        int Mainmenu();
+        int MainMenu();
         int AdminMenu();
         int UserMenu();
     }
