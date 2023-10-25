@@ -11,8 +11,6 @@ namespace Asm2_Advanced
     internal class Program
     {
         private static Library library;
-        private static Admin admin;
-
         public static void Main(string[] args)
         {
             library = new Library();
@@ -23,129 +21,156 @@ namespace Asm2_Advanced
             library.AddBook(new Book("The Lord of the Rings", "J.R.R.Tolkien", "Adventure", 1954));
             library.AddBook(new Book("The Alchemist", "Paulo Coelho", "Fantasy", 1988));
 
-            // Create an admin account
-            admin = new Admin("minh", "271003");
+            IMenu mainMenu = new Menu();
 
             Console.WriteLine("Welcome to the Library Management System!");
-
+            
             while (true)
             {
-                Console.WriteLine("\nChoose a role:");
-                Console.WriteLine("1. Admin");
-                Console.WriteLine("2. User");
-                Console.WriteLine("3. Exit");
-                Console.Write("Choice: ");
-
-                string roleChoice = Console.ReadLine();
-                switch (roleChoice)
+                try
                 {
-                    case "1":
-                        AdminMenu();
-                        break;
-                    case "2":
-                        UserMenu();
-                        break;
-                    case "3":
-                        Console.WriteLine("Exiting the Library Management System. Goodbye!");
-                        return;
-                    default:
-                        Console.WriteLine("Invalid choice. Please try again.");
-                        break;
-                }
-            }
-        }
-        
-        private static void AdminMenu()
-        {
-            Console.Write("Enter your username: ");
-            string name = Console.ReadLine();
-
-            Console.Write("Enter your password: ");
-            string password = Console.ReadLine();
-
-            if (admin.Name == name && admin.Authenticate(password))
-            {
-                Console.WriteLine("Login successful.");
-
-                while (true)
-                {
-                    Console.WriteLine("\nAdmin Menu:");
-                    Console.WriteLine("1. Display Books");
-                    Console.WriteLine("2. Search Books");
-                    Console.WriteLine("3. Add Book");
-                    Console.WriteLine("4. Remove Book");       
-                    Console.WriteLine("5. Display Borrowed Books");
-                    Console.WriteLine("6. Return to main menu");
-                    Console.Write("Choice: ");
-
-                    string adminChoice = Console.ReadLine();
-                    switch (adminChoice)
+                    int roleChoice = mainMenu.Mainmenu();
+                    switch (roleChoice)
                     {
-                        case "1":
-                            library.DisplayBook();
+                        case 1:
+                            AdminMenu();
                             break;
-                        case "2":
-                            SearchBooks();
+                        case 2:
+                            UserMenu();
                             break;
-                        case "3":
-                            AddBook();
-                            break;
-                        case "4":
-                            RemoveBook();
-                            break;     
-                        case "5":
-                            library.DisplayBorrowedBooksFromFile();
-                            break;
-                        case "6":
+                        case 3:
+                            Console.WriteLine("Exiting the Library Management System. Goodbye!");
                             return;
                         default:
                             Console.WriteLine("Invalid choice. Please try again.");
                             break;
                     }
                 }
-            }
-            else
+                catch (FormatException ex)
                 {
+                    Console.WriteLine("FormatException: " + ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Exception: " + ex.Message);
+                }
+            }
+            
+        }
+        
+        private static void AdminMenu()
+        {
+            IMenu adminMenu = new Menu();
+
+            Console.Write("Enter your username: ");
+            string name = Console.ReadLine();
+
+            Console.Write("Enter your password: ");
+            string password = Console.ReadLine();
+
+            if (library.admin.Name == name && library.admin.Authenticate(password))
+            {
+                Console.WriteLine("Login successful.");
+
+                while (true)
+                {
+                    try {
+                        int adminChoice = adminMenu.AdminMenu();
+                        switch (adminChoice)
+                        {
+                            case 1:
+                                library.DisplayBook();
+                                break;
+                            case 2:
+                                SearchBooks();
+                                break;
+                            case 3:
+                                AddBook();
+                                break;
+                            case 4:
+                                RemoveBook();
+                                break;
+                            case 5:
+                                return;
+                            default:
+                                Console.WriteLine("Invalid choice. Please try again.");
+                                break;
+                        }
+                    }
+                    catch (FormatException ex)
+                    {
+                        Console.WriteLine("FormatException: " + ex.Message);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Exception: " + ex.Message);
+                    }
+                }
+            }
+            else {
                     Console.WriteLine("Invalid credentials. Returning to main menu.");
                 }
         }
 
         private static void UserMenu()
         {
-            while (true)
-            {
-                Console.WriteLine("\nUser Menu:");
-                Console.WriteLine("1. Display Books");
-                Console.WriteLine("2. Search Books");
-                Console.WriteLine("3. Borrow Book");
-                Console.WriteLine("4. Return Book");
-                Console.WriteLine("5. Return to main menu");
-                Console.Write("Choice: ");
+            IMenu userMenu = new Menu();
 
-                string userChoice = Console.ReadLine();
-                switch (userChoice)
+            Console.Write("Enter your username: ");
+            string name = Console.ReadLine();
+
+            Console.Write("Enter your password: ");
+            string password = Console.ReadLine();
+
+            if (library.customer.Name == name && library.customer.Authenticate(password))
+            {
+                Console.WriteLine("Login successful.");
+
+                while (true)
                 {
-                    case "1":
-                        library.DisplayBook();
-                        break;
-                    case "2":
-                        SearchBooks();
-                        break;
-                    case "3":
-                        library.BorrowBook();
-                        break;
-                    case "4":
-                        library.ReturnBook();
-                        break;
-                    case "5":
-                        return;
-                    default:
-                        Console.WriteLine("Invalid choice. Please try again.");
-                        break;
+                    try
+                    {
+                        int userChoice = userMenu.UserMenu();
+                        switch (userChoice)
+                        {
+                            case 1:
+                                library.DisplayBook();
+                                break;
+                            case 2:
+                                SearchBooks();
+
+                                break;
+                            case 3:
+                                library.BorrowBook();
+                                break;
+                            case 4:
+                                library.ReturnBook();
+                                break;
+                            case 5:
+                                library.DisplayBorrowedBooksFromFile();
+                                break;
+                            case 6:
+                                return;
+                            default:
+                                Console.WriteLine("Invalid choice. Please try again.");
+                                break;
+                        }
+                    }
+                    catch (FormatException ex)
+                    {
+                        Console.WriteLine("FormatException: " + ex.Message);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Exception: " + ex.Message);
+                    }
                 }
             }
+            else
+            {
+                Console.WriteLine("Invalid credentials. Returning to main menu.");
+            }
         }
-
         private static void AddBook()
         {
             try
@@ -198,19 +223,18 @@ namespace Asm2_Advanced
                 Console.Write("Enter the publish year of the book: ");
                 if (int.TryParse(Console.ReadLine(), out int publishYear))
                 {
-                    if (publishYear < 0)
+                    if (publishYear < 1000 || publishYear > 9999)
                     {
-                        throw new ArgumentException("Publish year cannot be negative.");
+                        throw new FormatException("Publish year must be input 4 numbers.");
                     }
-
-
-                    library.AddBook(new Book(title, genre, author, publishYear));
-                    Console.WriteLine("Book added successfully.");
                 }
                 else
                 {
                     throw new FormatException("Invalid input for publish year.");
                 }
+
+                library.AddBook(new Book(title, genre, author, publishYear));
+                Console.WriteLine("Book added successfully.");
             }
             catch (ArgumentNullException ex)
             {

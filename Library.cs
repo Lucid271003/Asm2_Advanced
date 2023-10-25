@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,15 +12,19 @@ namespace Asm2_Advanced
     {
         private List<Book> books;
         private List<BorrowedBook> borrowedBooks;
+        public Admin admin;
+        public Customer customer;
         public Library()
         {
             books = new List<Book>();
             borrowedBooks = new List<BorrowedBook>();
+            admin = new Admin("minh", "271003");
+            customer = new Customer("quan", "210513");
         }
 
-        public void AddBook(Book b)
+        public void AddBook(Book book)
         {
-            books.Add(b);
+            books.Add(book);
         }
 
         public void RemoveBook(int id)
@@ -59,30 +64,13 @@ namespace Asm2_Advanced
         {
             try
             {
-                if (books == null)
-                {
-                    throw new NullReferenceException("The 'books' list is null.");
-                }
-
                 Console.WriteLine("Library Books:");
                 foreach (var book in books)
                 {
-                    if (book == null)
-                    {
-                        throw new NullReferenceException("One of the books is null.");
-                    }
-
                     book.DisplayBook();
                 }
             }
-            catch (NullReferenceException ex)
-            {
-                Console.WriteLine("NullReferenceException: " + ex.Message);
-            }
-            catch (InvalidOperationException ex)
-            {
-                Console.WriteLine("InvalidOperationException: " + ex.Message);
-            }
+
             catch (Exception ex)
             {
                 Console.WriteLine("An unexpected exception occurred: " + ex.Message);
@@ -93,30 +81,8 @@ namespace Asm2_Advanced
         {
             try
             {
-                Console.Write("Enter the borrower's name: ");
-                string borrowerName = Console.ReadLine();
-
                 Console.Write("Enter the title of the book you want to borrow: ");
                 string title = Console.ReadLine();
-
-                if (string.IsNullOrEmpty(borrowerName))
-                {
-                    throw new ArgumentNullException("Borrower name cannot be null or empty.");
-                }
-
-                foreach (char c in borrowerName)
-                {
-                    if (char.IsDigit(c))
-                    {
-                        throw new FormatException("Borrower name cannot contain numbers.");
-                    }
-                }
-
-                /*// Check if the borrower's name contains a number
-                if (ContainsNumber(borrowerName))
-                {
-                    throw new FormatException("Borrower name cannot contain numbers.");
-                }*/
 
                 if (string.IsNullOrEmpty(title))
                 {
@@ -128,14 +94,10 @@ namespace Asm2_Advanced
                 if (bookToBorrow != null)
                 {
                     bookToBorrow.IsAvailable = false;
-                    borrowedBooks.Add(new BorrowedBook
-                    {
-                        BookId = bookToBorrow.Id,
-                        BookTitle = bookToBorrow.Name,
-                        UserName = borrowerName,
-                        BorrowDate = DateTime.Now
-                    });
+                    BorrowedBook borrowedBook = new BorrowedBook(bookToBorrow.Name, bookToBorrow.Genre, bookToBorrow.Author, bookToBorrow.PublishYear, DateTime.Now);
+                    borrowedBooks.Add(borrowedBook);
                     Console.WriteLine("Book borrowed successfully.");
+
                     SaveBorrowedBooksToFile();
                 }
                 else
@@ -147,30 +109,12 @@ namespace Asm2_Advanced
             {
                 Console.WriteLine("Input cannot be null: " + ex.Message);
             }
-            catch (FormatException ex)
-            {
-                Console.WriteLine("Invalid input: " + ex.Message);
-            }
-            catch (InvalidOperationException ex)
-            {
-                Console.WriteLine("Invalid operation: " + ex.Message);
-            }
             catch (Exception ex)
             {
                 Console.WriteLine("An unexpected exception occurred: " + ex.Message);
             }
         }
-        /*private bool ContainsNumber(string input)
-        {
-            foreach (char c in input)
-            {
-                if (char.IsDigit(c))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }*/
+
         public void ReturnBook()
         {
             try
@@ -188,11 +132,11 @@ namespace Asm2_Advanced
                     throw new InvalidOperationException("The 'books' or 'borrowedBooks' list is null.");
                 }
 
-                BorrowedBook borrowedBook = borrowedBooks.Find(book => book.BookTitle.ToLower() == title.ToLower());
+                BorrowedBook borrowedBook = borrowedBooks.Find(book => book.Name.ToLower() == title.ToLower());
 
                 if (borrowedBook != null)
                 {
-                    Book bookToReturn = books.Find(book => book.Id == borrowedBook.BookId);
+                    Book bookToReturn = books.Find(book => book.Name == borrowedBook.Name);
                     if (bookToReturn != null)
                     {
                         bookToReturn.IsAvailable = true;
@@ -227,9 +171,9 @@ namespace Asm2_Advanced
             {
                 using (StreamWriter writer = new StreamWriter(filePath))
                 {
-                    foreach (var borrowedBook in borrowedBooks)
+                    foreach (BorrowedBook borrowedBook in borrowedBooks)
                     {
-                        writer.WriteLine($"Book ID: {borrowedBook.BookId}, Book Title: {borrowedBook.BookTitle}, User: {borrowedBook.UserName}, Borrow Date: {borrowedBook.BorrowDate}");
+                        writer.WriteLine($"Book Title: {borrowedBook.Name}, Genre: {borrowedBook.Genre}, Author: {borrowedBook.Author}, Publish Year: {borrowedBook.PublishYear}, Borrow Date: {borrowedBook.BorrowDate}");
                     }
                 }
             }

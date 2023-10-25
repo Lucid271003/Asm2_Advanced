@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Asm2_Advanced
 {
-    internal class Book : IBookBase
+    internal class Book
     {
         private static int idCounter = 1;
 
@@ -57,8 +57,7 @@ namespace Asm2_Advanced
             Author = author;
             PublishYear = publishYear;
         }
-
-        public void DisplayBook()
+        public virtual void DisplayBook()
         {
             Console.WriteLine($"ID: {Id}, Name: {Name}, Author: {Author}, Genre: {Genre}, Publish Year: {PublishYear}, Available: {IsAvailable}");
         }
