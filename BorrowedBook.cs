@@ -18,9 +18,9 @@ namespace Asm2_Advanced
         {
             BorrowDate = borrowDate;
         }
-        //public override void DisplayBook()
-        //{
-        //    Console.WriteLine(base.ToString() + $"Borow Date: {BorrowDate}");
-        //}
+        public override void DisplayBook()
+        {
+            Console.WriteLine(base.ToString() + $"Borow Date: {BorrowDate}");
+        }
     }
 }
