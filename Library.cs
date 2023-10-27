@@ -22,6 +22,7 @@ namespace Asm2_Advanced
             customer = new Customer("quan", "210513");
         }
 
+
         public void AddBook(Book book)
         {
             books.Add(book);

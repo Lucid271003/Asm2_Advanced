@@ -13,10 +13,5 @@ namespace Asm2_Advanced
             Name = name;
             Password = password;
         }
-
-        public bool Authenticate(string enteredPassword)
-        {
-            return enteredPassword == Password;
-        }
     }
 }

@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace Asm2_Advanced
 {
-    internal interface IMenu
+    internal abstract class IMenu
     {
-        int MainMenu();
-        int AdminMenu();
-        int UserMenu();
+        public abstract void DisplayMenu(Library library);
     }
 }
